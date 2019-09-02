@@ -32,6 +32,11 @@ export default class TreeContainer extends React.Component {
     unfilteredNodes: PropTypes.arrayOf(PropTypes.shape(Node)),
   };
 
+  constructor(props) {
+    super(props);
+    this.handleRowsRendered = this.handleRowsRendered.bind(this);
+  }
+
   get nodes() {
     return this.context.unfilteredNodes || this.props.nodes;
   }
@@ -41,6 +46,10 @@ export default class TreeContainer extends React.Component {
 
     this.props.onChange(updatedNodes);
   };
+
+  handleRowsRendered({overscanStartIndex, overscanStopIndex, startIndex, stopIndex}) {
+    this.props.onRowsRendered({overscanStartIndex, overscanStopIndex, startIndex, stopIndex});
+  }
 
   render() {
     const flattenedTree = getFlattenedTree(this.props.nodes);
@@ -54,6 +63,7 @@ export default class TreeContainer extends React.Component {
         scrollToIndex={rowIndex}
         scrollToAlignment={this.props.scrollToAlignment}
         width={this.props.width}
+        onRowsRendered={this.handleRowsRendered}
       />
     );
   }
@@ -65,6 +75,7 @@ TreeContainer.propTypes = {
   }),
   nodes: PropTypes.arrayOf(PropTypes.shape(Node)).isRequired,
   onChange: PropTypes.func,
+  onRowsRendered: PropTypes.func,
   children: PropTypes.func.isRequired,
   nodeMarginLeft: PropTypes.number,
   width: PropTypes.number,
@@ -74,4 +85,5 @@ TreeContainer.propTypes = {
 
 TreeContainer.defaultProps = {
   nodeMarginLeft: 30,
+  onRowsRendered: () => {},
 };

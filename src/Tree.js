@@ -82,6 +82,7 @@ export default class Tree extends React.Component {
             width={width || autoWidth}
             scrollToIndex={scrollToIndex}
             scrollToAlignment={scrollToAlignment}
+            onRowsRendered={this.props.onRowsRendered}
           />
         )}
       </AutoSizer>
@@ -93,6 +94,7 @@ Tree.propTypes = {
   nodes: PropTypes.arrayOf(PropTypes.shape(FlattenedNode)).isRequired,
   NodeRenderer: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  onRowsRendered: PropTypes.func.isRequired,
   nodeMarginLeft: PropTypes.number,
   width: PropTypes.number,
   scrollToIndex: PropTypes.number,
